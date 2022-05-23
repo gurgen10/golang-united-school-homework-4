@@ -1,10 +1,10 @@
 package string_sum
 
 import (
-	"fmt"
 	"errors"
-	"strings"
+	"fmt"
 	"strconv"
+	"strings"
 )
 
 //use these errors as appropriate, wrapping them with fmt.Errorf function
@@ -27,49 +27,41 @@ var (
 
 func StringSum(input string) (output string, err error) {
 	input = strings.ReplaceAll(input, " ", "")
-	
-	if(input == "") {
-		printError(errorEmptyInput)
-		return "", errorEmptyInput
+	leadingMinus := ""
+
+	if input == "" {
+		return "", fmt.Errorf("Error: %s", errorEmptyInput)
 	}
-	if(input[0] == '-') {
+	if input[0] == '-' {
+		input = input[1:]
+		leadingMinus = "-"
+	}
+	if input[0] == '+' {
 		input = input[1:]
 	}
-	if(input[0] == '+') {
-		input = input[1:]
-	}
-	
+
 	splitInputPlus := strings.Split(input, "+")
 	splitInputMinus := strings.Split(input, "-")
 
 	if len(splitInputPlus) > 1 && len(splitInputPlus) < 3 {
-		val1, err1 := strconv.ParseInt(splitInputPlus[0], 10, 32)
-		val2, err2 := strconv.ParseInt(splitInputPlus[1], 10, 32)
-		fmt.Println(int(val2))
+		val1, err1 := strconv.ParseInt(leadingMinus+splitInputPlus[0], 10, 32)
+		val2, err2 := strconv.ParseInt(leadingMinus+splitInputPlus[1], 10, 32)
 
-		if(err1 != nil || err2 != nil) {
-			printError(errorNotTwoOperands)
-			return "", errorNotTwoOperands
+		if err1 != nil || err2 != nil {
+			return "", fmt.Errorf("Error: %s", errorNotTwoOperands)
 		}
-		output = fmt.Sprintf("%v",int64(val1) + int64(val2));
+		output = fmt.Sprintf("%v", int64(val1)+int64(val2))
 		return output, nil
 	} else if len(splitInputMinus) > 1 && len(splitInputMinus) < 3 {
-		val1, err1 := strconv.ParseInt(splitInputMinus[0], 10, 32)
-		val2, err2 := strconv.ParseInt(splitInputMinus[1], 10, 32)
+		val1, err1 := strconv.ParseInt(leadingMinus+splitInputMinus[0], 10, 32)
+		val2, err2 := strconv.ParseInt(leadingMinus+splitInputMinus[1], 10, 32)
 
-		if(err1 != nil || err2 != nil) {
-			printError(errorNotTwoOperands)
-			return "", errorNotTwoOperands
+		if err1 != nil || err2 != nil {
+			return "", fmt.Errorf("Error: %s", errorNotTwoOperands)
 		}
-		output = fmt.Sprintf("%v",int64(val1) + int64(val2));
+		output = fmt.Sprintf("%v", int64(val1)+int64(val2))
 		return output, nil
 	} else {
-		printError(errorNotTwoOperands)
-		return "", errorNotTwoOperands
+		return "", fmt.Errorf("Error: %s", errorNotTwoOperands)
 	}
-}
-
-func printError(errorMsg error) {
-	err := fmt.Errorf("Error: %s", errorMsg)
-	fmt.Println(err.Error())
 }
