@@ -30,11 +30,12 @@ func StringSum(input string) (output string, err error) {
 	leadingMinus := ""
 
 	if input == "" {
-		return "", fmt.Errorf("%s", errorEmptyInput)
+		return "", fmt.Errorf("%w", errorEmptyInput)
 	}
 	if input[0] == '-' {
 		input = input[1:]
 		leadingMinus = "-"
+		fmt.Println(leadingMinus)
 	}
 	if input[0] == '+' {
 		input = input[1:]
@@ -45,23 +46,23 @@ func StringSum(input string) (output string, err error) {
 
 	if len(splitInputPlus) > 1 && len(splitInputPlus) < 3 {
 		val1, err1 := strconv.ParseInt(leadingMinus+splitInputPlus[0], 10, 32)
-		val2, err2 := strconv.ParseInt(leadingMinus+splitInputPlus[1], 10, 32)
+		val2, err2 := strconv.ParseInt(splitInputPlus[1], 10, 32)
 
 		if err1 != nil || err2 != nil {
-			return "", fmt.Errorf("%s", errorNotTwoOperands)
+			return "", fmt.Errorf("%w", errorNotTwoOperands)
 		}
 		output = fmt.Sprintf("%v", int64(val1)+int64(val2))
 		return output, nil
 	} else if len(splitInputMinus) > 1 && len(splitInputMinus) < 3 {
 		val1, err1 := strconv.ParseInt(leadingMinus+splitInputMinus[0], 10, 32)
-		val2, err2 := strconv.ParseInt(leadingMinus+splitInputMinus[1], 10, 32)
+		val2, err2 := strconv.ParseInt(splitInputMinus[1], 10, 32)
 
 		if err1 != nil || err2 != nil {
-			return "", fmt.Errorf("%s", errorNotTwoOperands)
+			return "", fmt.Errorf("%w", errorNotTwoOperands)
 		}
 		output = fmt.Sprintf("%v", int64(val1)-int64(val2))
 		return output, nil
 	} else {
-		return "", fmt.Errorf("%s", errorNotTwoOperands)
+		return "", fmt.Errorf("%w", errorNotTwoOperands)
 	}
 }
