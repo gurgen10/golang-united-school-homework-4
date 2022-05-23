@@ -42,7 +42,7 @@ func StringSum(input string) (output string, err error) {
 	splitInputPlus := strings.Split(input, "+")
 	splitInputMinus := strings.Split(input, "-")
 
-	if len(splitInputPlus) > 1 {
+	if len(splitInputPlus) > 1 && len(splitInputPlus) < 3 {
 		val1, err1 := strconv.ParseInt(splitInputPlus[0], 10, 32)
 		val2, err2 := strconv.ParseInt(splitInputPlus[1], 10, 32)
 		fmt.Println(int(val2))
@@ -53,7 +53,7 @@ func StringSum(input string) (output string, err error) {
 		}
 		output = fmt.Sprintf("%v",int64(val1) + int64(val2));
 		return output, nil
-	} else if len(splitInputMinus) > 1 {
+	} else if len(splitInputMinus) > 1 && len(splitInputMinus) < 3 {
 		val1, err1 := strconv.ParseInt(splitInputMinus[0], 10, 32)
 		val2, err2 := strconv.ParseInt(splitInputMinus[1], 10, 32)
 
