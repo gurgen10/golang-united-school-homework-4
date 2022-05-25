@@ -48,8 +48,15 @@ func StringSum(input string) (output string, err error) {
 		val1, err1 := strconv.Atoi(leadingMinus + splitInputPlus[0])
 		val2, err2 := strconv.Atoi(splitInputPlus[1])
 
-		if err1 != nil || err2 != nil {
-			return "", fmt.Errorf("%w", errorNotTwoOperands)
+		if err1 != nil {
+			e1 := err1.(*strconv.NumError)
+			e1.Err = errorNotTwoOperands
+			return "", fmt.Errorf("%w", e1)
+		}
+		if err2 != nil {
+			e2 := err2.(*strconv.NumError)
+			e2.Err = errorNotTwoOperands
+			return "", fmt.Errorf("%w", e2)
 		}
 		output = fmt.Sprintf("%v", int64(val1)+int64(val2))
 		return output, nil
@@ -57,8 +64,15 @@ func StringSum(input string) (output string, err error) {
 		val1, err1 := strconv.Atoi(leadingMinus + splitInputMinus[0])
 		val2, err2 := strconv.Atoi(splitInputMinus[1])
 
-		if err1 != nil || err2 != nil {
-			return "", fmt.Errorf("%w", errorNotTwoOperands)
+		if err1 != nil {
+			e1 := err1.(*strconv.NumError)
+			e1.Err = errorNotTwoOperands
+			return "", fmt.Errorf("%w", e1)
+		}
+		if err2 != nil {
+			e2 := err2.(*strconv.NumError)
+			e2.Err = errorNotTwoOperands
+			return "", fmt.Errorf("%w", e2)
 		}
 		output = fmt.Sprintf("%v", int64(val1)-int64(val2))
 		return output, nil
